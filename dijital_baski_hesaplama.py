@@ -135,6 +135,54 @@ def print_rapor(hesapla_sonucu):
     print("="*60 + "\n")
 
 
+def kullanıcı_girişi_al():
+    """Kullanıcıdan gerekli bilgileri al"""
+    print("\n" + "="*60)
+    print("DİJİTAL BASKI MALİYET HESAPLAMA SISTEMI")
+    print("="*60)
+    
+    # Kağıt türü seçimi
+    print("\n📄 Kullanılabilir Kağıt Türleri:")
+    kağıt_türleri = ['A4', 'A3', 'A2', 'A1', 'poster_60x90', 'poster_80x120']
+    for i, tür in enumerate(kağıt_türleri, 1):
+        print(f"  {i}. {tür}")
+    
+    while True:
+        try:
+            seçim = int(input("\nKağıt türünü seçiniz (1-6): "))
+            if 1 <= seçim <= 6:
+                kağıt_türü = kağıt_türleri[seçim - 1]
+                break
+            else:
+                print("❌ Lütfen 1-6 arasında bir sayı giriniz!")
+        except ValueError:
+            print("❌ Geçersiz giriş! Lütfen sayı giriniz!")
+    
+    # Adet girişi
+    while True:
+        try:
+            adet = int(input(f"\n{kağıt_türü} için kaç adet baskı yapılacak? "))
+            if adet > 0:
+                break
+            else:
+                print("❌ Lütfen 0'dan büyük bir sayı giriniz!")
+        except ValueError:
+            print("❌ Geçersiz giriş! Lütfen sayı giriniz!")
+    
+    # Kar marjı girişi
+    while True:
+        try:
+            kar_oranı = float(input("\nKar marjı yüzdesi (varsayılan %30): ") or "30")
+            if kar_oranı >= 0:
+                break
+            else:
+                print("❌ Lütfen 0 veya daha büyük bir sayı giriniz!")
+        except ValueError:
+            print("❌ Geçersiz giriş! Lütfen sayı giriniz!")
+    
+    return kağıt_türü, adet, kar_oranı
+
+
 # Kullanım Örneği
 if __name__ == "__main__":
     # Hesaplama sistemini oluştur
@@ -143,17 +191,16 @@ if __name__ == "__main__":
         kurulum_zamani=30            # dakika
     )
     
-    # Örnek 1: A4 1000 adet
-    print("\n📋 ÖRNEK 1: A4 1000 Adet")
-    sonuc1 = hesap.detaylı_hesapla('A4', 1000, kar_oranı=30)
-    print_rapor(sonuc1)
-    
-    # Örnek 2: A3 500 adet
-    print("\n📋 ÖRNEK 2: A3 500 Adet")
-    sonuc2 = hesap.detaylı_hesapla('A3', 500, kar_oranı=35)
-    print_rapor(sonuc2)
-    
-    # Örnek 3: Poster (60x90) 100 adet
-    print("\n📋 ÖRNEK 3: Poster 60x90 100 Adet")
-    sonuc3 = hesap.detaylı_hesapla('poster_60x90', 100, kar_oranı=40)
-    print_rapor(sonuc3)
+    while True:
+        # Kullanıcıdan girişi al
+        kağıt_türü, adet, kar_oranı = kullanıcı_girişi_al()
+        
+        # Hesapla ve raporla
+        sonuc = hesap.detaylı_hesapla(kağıt_türü, adet, kar_oranı=kar_oranı)
+        print_rapor(sonuc)
+        
+        # Tekrar sormak isteyip istemediğini sor
+        devam = input("Başka bir hesaplama yapmak ister misiniz? (E/H): ").upper()
+        if devam != 'E':
+            print("\n👋 Hoşça kalınız!\n")
+            break

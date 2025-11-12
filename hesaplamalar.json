@@ -1,0 +1,6 @@
+{"kağıt_türü": "A4", "adet": 1000}
+{"kağıt_türü": "A3", "adet": 500, "kar_oranı": 35}
+# Bu satır yorum
+{"kağıt_türü": "A2", "adet": 250, "kar_oranı": 40}
+{"kağıt_türü": "poster_60x90", "adet": 100, "kar_oranı": 45}
+{"kağıt_türü": "poster_80x120", "adet": 50}
